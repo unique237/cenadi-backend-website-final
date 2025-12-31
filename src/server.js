@@ -12,6 +12,9 @@ if (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'CHANGE_THIS_TO_A_SECU
     process.exit(1);
 }
 
+// Import Swagger configuration
+const swaggerSpec = require('./config/swagger');
+
 // Import routes
 const contactRoutes = require('./routes/contactRoutes');
 const subscribeRoutes = require('./routes/subcribeRoutes');
@@ -24,6 +27,7 @@ const projectRoutes = require('./routes/projectRoutes');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const swaggerUi = require('swagger-ui-express');
 const { apiLimiter } = require('./middleware/rateLimiter');
 const { errorHandler } = require('./middleware/errorHandler');
 const app = express();
@@ -79,7 +83,13 @@ if (isProduction) {
     app.use(express.json({ limit: '10mb' }));
 }
 
-// Base routes
+// Swagger UI - API Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'CENADI API Documentation'
+}));
+
+// API Routes
 app.use('/api', contactRoutes);
 app.use('/api', subscribeRoutes);
 app.use('/api', userRoutes);
@@ -102,6 +112,7 @@ testConnection().then(() => {
         logger.info(`Memory usage: ${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`);
         logger.info(`CPU usage: ${(process.cpuUsage().user / 1000).toFixed(2)} ms`);
         logger.info(`Environment: ${process.env.NODE_ENV}`);
+        logger.info(`API Documentation available at http://localhost:${port}/api-docs`);
     });
 }).catch((error) => {
     logger.error('Failed to connect to database:', error);
