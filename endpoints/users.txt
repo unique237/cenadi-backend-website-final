@@ -1,0 +1,11 @@
+Public Endpoints:
+POST   /api/auth/signup         - User registration (default role: 'author', status: 'pending')
+POST   /api/auth/signin         - User login (only active status users)
+
+Protected Endpoints (JWT required):
+GET    /api/users               - Get all users (Admin only)
+GET    /api/users/:userId       - Get specific user by ID
+
+Admin Endpoints
+PUT    /api/users/:userId       - Update user role and status (Admin only, cannot update self)
+DELETE /api/users/:userId       - Delete user (Admin only, cannot delete self)
