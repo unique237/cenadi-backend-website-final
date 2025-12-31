@@ -3,6 +3,14 @@ const User = require('./User');
 const Category = require('./Category');
 const Article = require('./Article');
 const Project = require('./Project');
+const Staff = require('./Staff');
+const Partner = require('./Partner');
+const Fact = require('./Fact');
+const Ebook = require('./Ebook');
+const DirectorMessage = require('./DirectorMessage');
+const MinisterMessage = require('./MinisterMessage');
+const Asset = require('./Asset');
+const Subscriber = require('./Subscriber');
 
 // Export tous les modèles
 const models = {
@@ -10,6 +18,14 @@ const models = {
   Category,
   Article,
   Project,
+  Staff,
+  Partner,
+  Fact,
+  Ebook,
+  DirectorMessage,
+  MinisterMessage,
+  Asset,
+  Subscriber,
   sequelize,
 };
 

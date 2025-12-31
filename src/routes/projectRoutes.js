@@ -6,7 +6,7 @@ const {
     createProject,
     updateProject,
     deleteProject
-} = require('../controllers/projectController');
+} = require('../controllers/projectController.v2');
 const { verifyToken, adminOnly } = require('../middleware/auth');
 
 // Public Routes

@@ -145,6 +145,37 @@ const getAllUsers = async (req, res) => {
     }
 };
 
+// Get user by ID (Admin only)
+const getUserById = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const user = await User.findByPk(userId, {
+            attributes: { exclude: ['password_hash'] },
+        });
+
+        if (!user) {
+            return res.status(404).json({ 
+                success: false,
+                message: 'User not found',
+            });
+        }
+
+        logger.info(`Fetched user by ID: ${userId}`);
+
+        return res.status(200).json({
+            success: true,
+            user,
+        });
+    } catch (error) {
+        logger.error('Get user by ID error:', error);
+        return res.status(500).json({ 
+            success: false,
+            message: 'An error occurred while fetching user',
+        });
+    }
+};
+
 // Update user (Admin only - for role/status updates)
 const updateUser = async (req, res) => {
     try {
@@ -240,6 +271,7 @@ module.exports = {
     signup,
     signin,
     getAllUsers,
+    getUserById,
     updateUser,
     deleteUser,
 };

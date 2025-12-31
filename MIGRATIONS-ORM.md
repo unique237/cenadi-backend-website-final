@@ -17,20 +17,20 @@ npm install sequelize sequelize-cli db-migrate db-migrate-pg --save
 
 ```javascript
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
-  dialect: 'postgres',
+  dialect: "postgres",
   pool: { max: 10, min: 0 },
-  define: { timestamps: true, underscored: true }
+  define: { timestamps: true, underscored: true },
 });
 ```
 
 ### Modèles créés (src/models/)
 
-| Modèle | Table | Relations |
-|--------|-------|-----------|
-| **User** | users | hasMany(Article) |
-| **Category** | categories | hasMany(Article) |
-| **Article** | articles | belongsTo(User, Category) |
-| **Project** | projects | - |
+| Modèle       | Table      | Relations                 |
+| ------------ | ---------- | ------------------------- |
+| **User**     | users      | hasMany(Article)          |
+| **Category** | categories | hasMany(Article)          |
+| **Article**  | articles   | belongsTo(User, Category) |
+| **Project**  | projects   | -                         |
 
 ### Fonctionnalités ORM
 
@@ -43,17 +43,19 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
 ## 🔄 Contrôleurs refactorisés
 
 ### Avant (SQL brut)
+
 ```javascript
 const result = await pool.query(
-  'SELECT * FROM categories WHERE category_id = $1',
+  "SELECT * FROM categories WHERE category_id = $1",
   [categoryId]
 );
 ```
 
 ### Après (Sequelize ORM)
+
 ```javascript
 const category = await Category.findByPk(categoryId, {
-  include: [{ model: Article, as: 'articles' }]
+  include: [{ model: Article, as: "articles" }],
 });
 ```
 
@@ -68,6 +70,7 @@ const category = await Category.findByPk(categoryId, {
 ## 🗄️ Fichiers créés
 
 ### Modèles Sequelize
+
 - [src/models/User.js](src/models/User.js) - Modèle User avec validation email
 - [src/models/Category.js](src/models/Category.js) - Modèle Category bilingue
 - [src/models/Article.js](src/models/Article.js) - Modèle Article avec relations
@@ -75,17 +78,21 @@ const category = await Category.findByPk(categoryId, {
 - [src/models/index.js](src/models/index.js) - Export centralisé + sync helper
 
 ### Contrôleurs v2 (avec ORM)
+
 - [src/controllers/categoryControllers.v2.js](src/controllers/categoryControllers.v2.js)
 - [src/controllers/userController.v2.js](src/controllers/userController.v2.js)
 
 ### Seeders
+
 - [src/seeders/seed.js](src/seeders/seed.js) - Admin + Author + 4 catégories
 
 ### Migrations
+
 - [migrations/20251231-add-subscribers-email-index.js](migrations/20251231-add-subscribers-email-index.js)
 - [database.json](database.json) - Configuration db-migrate
 
 ### Configuration
+
 - [src/config/database.js](src/config/database.js) - Sequelize config + test connexion
 
 ## 🚀 Scripts npm disponibles
@@ -108,17 +115,17 @@ npm run db:sync             # Sync modèles avec DB (ALTER)
 ### 1. Créer un article avec relations
 
 ```javascript
-const Article = require('./models/Article');
+const Article = require("./models/Article");
 
 const article = await Article.create({
-  title_en: 'My Article',
-  title_fr: 'Mon Article',
+  title_en: "My Article",
+  title_fr: "Mon Article",
   category_id: 1,
   author_id: 1,
-  content_en: 'Content...',
-  content_fr: 'Contenu...',
-  slug_en: 'my-article',
-  slug_fr: 'mon-article',
+  content_en: "Content...",
+  content_fr: "Contenu...",
+  slug_en: "my-article",
+  slug_fr: "mon-article",
 });
 ```
 
@@ -127,11 +134,11 @@ const article = await Article.create({
 ```javascript
 const articles = await Article.findAll({
   include: [
-    { model: Category, as: 'category' },
-    { model: User, as: 'author', attributes: ['name', 'email'] }
+    { model: Category, as: "category" },
+    { model: User, as: "author", attributes: ["name", "email"] },
   ],
   where: { is_featured: true },
-  order: [['published_at', 'DESC']],
+  order: [["published_at", "DESC"]],
   limit: 10,
 });
 ```
@@ -162,14 +169,14 @@ try {
 
 ## 🔧 Configuration vs Old System
 
-| Aspect | Ancien (pg driver) | Nouveau (Sequelize) |
-|--------|-------------------|---------------------|
-| **Requêtes** | SQL brut strings | Méthodes ORM (findAll, create) |
-| **Paramètres** | $1, $2, $3 | Objets JavaScript |
-| **Relations** | JOIN manuels | include automatique |
-| **Validation** | Manuelle | Déclarative dans modèle |
-| **Migrations** | SQL files ad-hoc | db-migrate versionnées |
-| **Seeders** | SQL INSERT | JavaScript avec models |
+| Aspect         | Ancien (pg driver) | Nouveau (Sequelize)            |
+| -------------- | ------------------ | ------------------------------ |
+| **Requêtes**   | SQL brut strings   | Méthodes ORM (findAll, create) |
+| **Paramètres** | $1, $2, $3         | Objets JavaScript              |
+| **Relations**  | JOIN manuels       | include automatique            |
+| **Validation** | Manuelle           | Déclarative dans modèle        |
+| **Migrations** | SQL files ad-hoc   | db-migrate versionnées         |
+| **Seeders**    | SQL INSERT         | JavaScript avec models         |
 
 ## ⚡ Performance
 
@@ -195,6 +202,7 @@ await sequelize.sync({ force: true }); // Reset DB test
 ### Get all categories avec count articles
 
 **Avant (SQL):**
+
 ```javascript
 const result = await pool.query(`
   SELECT c.*, COUNT(a.article_id) as article_count
@@ -205,17 +213,25 @@ const result = await pool.query(`
 ```
 
 **Après (Sequelize):**
+
 ```javascript
 const categories = await Category.findAll({
-  include: [{
-    model: Article,
-    as: 'articles',
-    attributes: [],
-  }],
+  include: [
+    {
+      model: Article,
+      as: "articles",
+      attributes: [],
+    },
+  ],
   attributes: {
-    include: [[sequelize.fn('COUNT', sequelize.col('articles.article_id')), 'article_count']]
+    include: [
+      [
+        sequelize.fn("COUNT", sequelize.col("articles.article_id")),
+        "article_count",
+      ],
+    ],
   },
-  group: ['Category.category_id'],
+  group: ["Category.category_id"],
 });
 ```
 
@@ -230,6 +246,7 @@ const categories = await Category.findAll({
 ## ✅ Phase 6 - COMPLÈTE
 
 **Réalisations :**
+
 - ✅ Sequelize ORM installé et configuré
 - ✅ 4 modèles créés avec relations (User, Category, Article, Project)
 - ✅ 2 contrôleurs refactorisés (v2)
@@ -239,6 +256,7 @@ const categories = await Category.findAll({
 - ✅ Test connexion Sequelize au démarrage serveur
 
 **Bénéfices :**
+
 - Code plus maintenable et lisible
 - Protection SQL injection automatique
 - Validations déclaratives

@@ -6,7 +6,7 @@ const {
     createCategory,
     updateCategory,
     deleteCategory
-} = require('../controllers/categoryControllers');
+} = require('../controllers/categoryControllers.v2');
 const { verifyToken, adminOnly } = require('../middleware/auth');
 
 // Public Routes

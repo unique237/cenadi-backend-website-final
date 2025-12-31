@@ -7,7 +7,7 @@ const {
     createNews,
     updateNews,
     deleteNews
-} = require('../controllers/newsController');
+} = require('../controllers/newsController.v2');
 const { verifyToken, adminOnly } = require('../middleware/auth');
 
 // Public Routes

@@ -8,7 +8,7 @@ const {
     getUserById,
     updateUser,
     deleteUser
-} = require('../controllers/userController');
+} = require('../controllers/userController.v2');
 const { verifyToken, adminOnly } = require('../middleware/auth');
 const { authLimiter } = require('../middleware/rateLimiter');
 const { validate, signupSchema, signinSchema, updateUserSchema } = require('../middleware/validation');
