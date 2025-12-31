@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .header {
+        background: #4caf50;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+      .content {
+        background: #fff;
+        padding: 20px;
+        border: 1px solid #ddd;
+      }
+      .field {
+        margin-bottom: 15px;
+      }
+      .label {
+        font-weight: bold;
+        color: #555;
+      }
+      .value {
+        margin-top: 5px;
+      }
+      .footer {
+        text-align: center;
+        font-size: 12px;
+        color: #888;
+        margin-top: 20px;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>CENADI</h1>
+        <h2>New Subscriber | </h2>
+      </div>
+
+      <div class="content">
+        <div class="field">
+          <div class="label">Email:</div>
+          <div class="value"><%= email %></div>
+        </div>
+      </div>
+      <div class="footer">
+        <div>&copy; <%= new Date().getFullYear() %> CENADI</div>
+        <div>
+          Contact: <a href="mailto:contact@cenadi.example">contac@cenadi.cm</a>
+        </div>
+      </div>
+      <img
+        src="https://res.cloudinary.com/dipmwyrfq/image/upload/v1760672059/cenadi3_jeew0s.jpg"
+        alt="CENADI Logo"
+      />
+    </div>
+  </body>
+</html>
