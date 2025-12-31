@@ -15,7 +15,7 @@ const verifyToken = (req, res, next) => {
         );
 
         req.user = decoded;
-        next();
+        return next();
     } catch (error) {
         console.error('Token verification error:', error);
         return res.status(401).json({ message: 'Invalid or expired token' });
@@ -27,7 +27,7 @@ const adminOnly = (req, res, next) => {
     if (req.user.role !== 'admin') {
         return res.status(403).json({ message: 'Access denied. Admin only.' });
     }
-    next();
+    return next();
 };
 
 // Author Only Middleware (for future use)
@@ -35,7 +35,7 @@ const authorOnly = (req, res, next) => {
     if (req.user.role !== 'author') {
         return res.status(403).json({ message: 'Access denied. Authors only.' });
     }
-    next();
+    return next();
 };
 
 module.exports = {

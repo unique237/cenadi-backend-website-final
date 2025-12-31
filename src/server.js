@@ -1,9 +1,13 @@
 // Load environment variables from .env file
 require('dotenv').config();
 
+// Import logger first
+const logger = require('./config/logger');
+const morgan = require('morgan');
+
 // Validate critical environment variables
 if (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'CHANGE_THIS_TO_A_SECURE_RANDOM_STRING_MIN_32_CHARS') {
-    console.error('❌ ERREUR CRITIQUE: JWT_SECRET doit être défini dans .env avec une valeur sécurisée');
+    logger.error('JWT_SECRET not properly configured in .env');
     process.exit(1);
 }
 
@@ -20,6 +24,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const { apiLimiter } = require('./middleware/rateLimiter');
+const { errorHandler } = require('./middleware/errorHandler');
 const app = express();
 
 // Define configuration constants
@@ -48,20 +53,28 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+// Morgan HTTP request logging
+const morganFormat = ':method :url :status :response-time ms - :res[content-length]';
+app.use(morgan(morganFormat, {
+    stream: {
+        write: (message) => logger.info(message.trim()),
+    },
+}));
+
 // Rate Limiting - Apply to all routes if enabled
 if (process.env.RATE_LIMIT_ENABLED === 'true') {
     app.use('/api', apiLimiter);
-    console.log('✅ Rate limiting activé');
+    logger.info('Rate limiting enabled');
 }
 
 // Middleware to parse JSON requests
 if (isDevelopment) {
-    console.log("Running in Development Mode");
+    logger.info('Running in Development Mode');
     app.use(express.json({ limit: '50mb' }));
 }
 
 if (isProduction) {
-    console.log("Running in Production Mode");
+    logger.info('Running in Production Mode');
     app.use(express.json({ limit: '10mb' }));
 }
 
@@ -78,9 +91,33 @@ app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'CENADI Backend is healthy 🚀' });
 });
 
+// Error Handling Middleware - MUST be after all routes
+app.use(errorHandler);
+
 app.listen(port, () => {
-    console.log(`CENADI Backend Server is up and running 🚀 on port ${port}`);
-    console.log(`Memory usage 📟 = ${process.memoryUsage().rss / 1024 / 1024} MB`);
-    console.log(`CPU usage speed 🏻 = ${process.cpuUsage().user / 1000} ms`);
-    console.log(`Environment = ${process.env.NODE_ENV}`);
+    logger.info(`CENADI Backend Server started on port ${port}`);
+    logger.info(`Memory usage: ${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`);
+    logger.info(`CPU usage: ${(process.cpuUsage().user / 1000).toFixed(2)} ms`);
+    logger.info(`Environment: ${process.env.NODE_ENV}`);
+});
+
+// Graceful Shutdown
+process.on('SIGTERM', () => {
+    logger.info('SIGTERM received. Shutting down gracefully...');
+    process.exit(0);
+});
+
+process.on('SIGINT', () => {
+    logger.info('SIGINT received. Shutting down gracefully...');
+    process.exit(0);
+});
+
+// Unhandled Errors
+process.on('unhandledRejection', (reason, promise) => {
+    logger.error('Unhandled Rejection at:', { promise, reason });
+});
+
+process.on('uncaughtException', (error) => {
+    logger.error('Uncaught Exception:', error);
+    process.exit(1);
 });

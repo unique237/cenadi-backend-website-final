@@ -23,7 +23,7 @@ const validate = (schema) => {
 
         // Remplace req.body par les données validées et nettoyées
         req.body = value;
-        next();
+        return next();
     };
 };
 

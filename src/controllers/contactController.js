@@ -36,14 +36,14 @@ const sendContactEmail = async (req, res) => {
     // Send email
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json({ 
+    return res.status(200).json({ 
       success: true, 
       message: 'Contact form submitted successfully!' 
     });
 
   } catch (error) {
     console.error('Error sending contact email:', error);
-    res.status(500).json({ 
+    return res.status(500).json({ 
       success: false, 
       message: 'Failed to send message. Please try again.' 
     });
