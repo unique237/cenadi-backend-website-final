@@ -1,4 +1,4 @@
-rquire('dotenv').config();
+require('dotenv').config();
 
 const smpt_contactConfig = {
   service: process.env.EMAIL_SERVER,

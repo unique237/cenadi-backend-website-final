@@ -1,9 +1,9 @@
 -- =====================================================
--- Schéma PostgreSQL pour Cenadi Backend
+-- Schéma PostgreSQL pour Cenadi Admin Dashboard
 -- =====================================================
 
 -- Créer la base de données (si nécessaire)
--- CREATE DATABASE cenadi_db;
+-- CREATE DATABASE cenadi;
 
 -- =====================================================
 -- TABLE: users
@@ -12,16 +12,10 @@ CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255),
     password_hash VARCHAR(255) NOT NULL,
-    role VARCHAR(50) DEFAULT 'author' CHECK (role IN ('admin', 'author')),
-    status VARCHAR(50) DEFAULT 'pending' CHECK (
-        status IN (
-            'pending',
-            'active',
-            'suspended'
-        )
-    ),
+    role VARCHAR(50) DEFAULT 'user',
+    status VARCHAR(50) DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -48,13 +42,13 @@ CREATE TABLE IF NOT EXISTS articles (
     title_fr VARCHAR(255) NOT NULL,
     slug_en VARCHAR(255) UNIQUE,
     slug_fr VARCHAR(255) UNIQUE,
-    excerpt_en TEXT NOT NULL,
-    excerpt_fr TEXT NOT NULL,
-    content_en TEXT NOT NULL,
-    content_fr TEXT NOT NULL,
+    excerpt_en TEXT,
+    excerpt_fr TEXT,
+    content_en TEXT,
+    content_fr TEXT,
     image_url VARCHAR(500),
     is_featured BOOLEAN DEFAULT FALSE,
-    published_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    published_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -66,11 +60,11 @@ CREATE TABLE IF NOT EXISTS projects (
     project_id SERIAL PRIMARY KEY,
     title_en VARCHAR(255) NOT NULL,
     title_fr VARCHAR(255) NOT NULL,
-    description_en TEXT NOT NULL,
-    description_fr TEXT NOT NULL,
-    link VARCHAR(500) DEFAULT 'https://cenadi.cm/en/contact/',
+    description_en TEXT,
+    description_fr TEXT,
+    link VARCHAR(500),
     image_url VARCHAR(500),
-    posted_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    posted_on TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -85,8 +79,8 @@ CREATE TABLE IF NOT EXISTS director_messages (
     title_fr VARCHAR(255),
     excerpt_en TEXT,
     excerpt_fr TEXT,
-    content_en TEXT NOT NULL,
-    content_fr TEXT NOT NULL,
+    content_en TEXT,
+    content_fr TEXT,
     image_url VARCHAR(500),
     x VARCHAR(255),
     linkedin VARCHAR(255),
@@ -100,17 +94,17 @@ CREATE TABLE IF NOT EXISTS director_messages (
 -- =====================================================
 CREATE TABLE IF NOT EXISTS staffs (
     staff_id SERIAL PRIMARY KEY,
-    staff_name_en VARCHAR(255) NOT NULL,
-    staff_name_fr VARCHAR(255) NOT NULL,
-    title_en VARCHAR(255) NOT NULL,
-    title_fr VARCHAR(255) NOT NULL,
-    description_en TEXT NOT NULL,
-    description_fr TEXT NOT NULL,
-    rank_en VARCHAR(100) NOT NULL,
-    rank_fr VARCHAR(100) NOT NULL,
-    department_en VARCHAR(255) NOT NULL,
-    department_fr VARCHAR(255) NOT NULL,
-    image_url VARCHAR(500) NOT NULL,
+    staff_name_en VARCHAR(255),
+    staff_name_fr VARCHAR(255),
+    title_en VARCHAR(255),
+    title_fr VARCHAR(255),
+    description_en TEXT,
+    description_fr TEXT,
+    rank_en VARCHAR(100),
+    rank_fr VARCHAR(100),
+    department_en VARCHAR(255),
+    department_fr VARCHAR(255),
+    image_url VARCHAR(500),
     email VARCHAR(255),
     linkedin VARCHAR(255),
     x VARCHAR(255),
@@ -125,7 +119,7 @@ CREATE TABLE IF NOT EXISTS facts (
     fact_id SERIAL PRIMARY KEY,
     content_en TEXT NOT NULL,
     content_fr TEXT NOT NULL,
-    posted_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    posted_on TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -151,11 +145,11 @@ CREATE TABLE IF NOT EXISTS finance_minister_messages (
 -- =====================================================
 CREATE TABLE IF NOT EXISTS assets (
     asset_id SERIAL PRIMARY KEY,
-    name_en VARCHAR(255) NOT NULL,
-    name_fr VARCHAR(255) NOT NULL,
-    description_en TEXT NOT NULL,
-    description_fr TEXT NOT NULL,
-    image_url VARCHAR(500) NOT NULL,
+    name_en VARCHAR(255),
+    name_fr VARCHAR(255),
+    description_en TEXT,
+    description_fr TEXT,
+    image_url VARCHAR(500),
     file_url VARCHAR(500),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -166,47 +160,41 @@ CREATE TABLE IF NOT EXISTS assets (
 -- =====================================================
 CREATE TABLE IF NOT EXISTS ebooks (
     book_id SERIAL PRIMARY KEY,
-    image_url VARCHAR(500) NOT NULL,
-    title_en VARCHAR(255) NOT NULL,
-    title_fr VARCHAR(255) NOT NULL,
-    description_en TEXT NOT NULL,
-    description_fr TEXT NOT NULL,
+    image_url VARCHAR(500),
+    title_en VARCHAR(255),
+    title_fr VARCHAR(255),
+    description_en TEXT,
+    description_fr TEXT,
     link VARCHAR(500),
-    posted_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    posted_on TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- =====================================================
--- TABLE: partners
+-- TABLE: partners (optional - not in original schema)
 -- =====================================================
 CREATE TABLE IF NOT EXISTS partners (
     partner_id SERIAL PRIMARY KEY,
-    name_en VARCHAR(255) NOT NULL,
-    name_fr VARCHAR(255) NOT NULL,
-    description_en TEXT NOT NULL,
-    description_fr TEXT NOT NULL,
-    logo_url VARCHAR(500) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    logo_url VARCHAR(500),
     website VARCHAR(500),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- =====================================================
--- TABLE: subscribers (pour la newsletter)
+-- TABLE: newsletters (optional - not in original schema)
 -- =====================================================
-CREATE TABLE IF NOT EXISTS subscribers (
-    subscriber_id SERIAL PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    name VARCHAR(255),
-    status VARCHAR(50) DEFAULT 'active' CHECK (
-        status IN (
-            'active',
-            'inactive',
-            'unsubscribed'
-        )
-    ),
-    subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE IF NOT EXISTS newsletters (
+    newsletter_id SERIAL PRIMARY KEY,
+    title_en VARCHAR(255),
+    title_fr VARCHAR(255),
+    content_en TEXT,
+    content_fr TEXT,
+    published_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -224,30 +212,16 @@ CREATE INDEX IF NOT EXISTS idx_articles_slug_fr ON articles (slug_fr);
 
 CREATE INDEX IF NOT EXISTS idx_articles_featured ON articles (is_featured);
 
-CREATE INDEX IF NOT EXISTS idx_articles_published ON articles (published_at);
-
 CREATE INDEX IF NOT EXISTS idx_users_username ON users (username);
 
 CREATE INDEX IF NOT EXISTS idx_users_email ON users (email);
-
-CREATE INDEX IF NOT EXISTS idx_users_role ON users (role);
-
-CREATE INDEX IF NOT EXISTS idx_users_status ON users (status);
-
-CREATE INDEX IF NOT EXISTS idx_staffs_department_en ON staffs (department_en);
-
-CREATE INDEX IF NOT EXISTS idx_staffs_department_fr ON staffs (department_fr);
-
-CREATE INDEX IF NOT EXISTS idx_subscribers_email ON subscribers (email);
-
-CREATE INDEX IF NOT EXISTS idx_subscribers_status ON subscribers (status);
 
 -- =====================================================
 -- DONNÉES DE TEST (optionnel)
 -- =====================================================
 
 -- Insérer un utilisateur administrateur de test
--- Mot de passe: SecureAdmin123 (généré avec bcryptjs)
+-- Mot de passe: admin123 (à hacher avec bcryptjs)
 INSERT INTO
     users (
         username,
@@ -259,9 +233,9 @@ INSERT INTO
     )
 VALUES (
         'admin',
-        'admin@cenadi.cm',
-        'Administrateur CENADI',
-        '$2a$10$8g9bfV0PqhFrN1J0c1K2M3N4O5P6Q7R8S9T0U1V2W3X4Y5Z6A7B8C',
+        'admin@cenadi.org',
+        'Administrateur',
+        '$2a$10$YIuIhCWuIGsVYfYVaXHJ..0qsY5w5I5E1F3eE3E3E3E3E3E3E3E3E',
         'admin',
         'active'
     )
@@ -275,6 +249,9 @@ VALUES ('News', 'Actualités'),
     (
         'Publications',
         'Publications'
-    ),
-    ('Announcements', 'Annonces')
+    )
 ON CONFLICT DO NOTHING;
+
+-- =====================================================
+-- Fin du schéma
+-- =====================================================

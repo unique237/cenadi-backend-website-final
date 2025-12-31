@@ -82,8 +82,8 @@ const signin = async (req, res) => {
         // Create JWT token
         const token = jwt.sign(
             { id: user.user_id, email: user.email, role: user.role },
-            process.env.JWT_SECRET || 'your-secret-key',
-            { expiresIn: '24h' }
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
         );
 
         // Return token and user info
