@@ -4,6 +4,7 @@ require('dotenv').config();
 // Import logger first
 const logger = require('./config/logger');
 const morgan = require('morgan');
+const { testConnection } = require('./config/database');
 
 // Validate critical environment variables
 if (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'CHANGE_THIS_TO_A_SECURE_RANDOM_STRING_MIN_32_CHARS') {
@@ -94,11 +95,17 @@ app.get('/api/health', (req, res) => {
 // Error Handling Middleware - MUST be after all routes
 app.use(errorHandler);
 
-app.listen(port, () => {
-    logger.info(`CENADI Backend Server started on port ${port}`);
-    logger.info(`Memory usage: ${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`);
-    logger.info(`CPU usage: ${(process.cpuUsage().user / 1000).toFixed(2)} ms`);
-    logger.info(`Environment: ${process.env.NODE_ENV}`);
+// Test database connection before starting server
+testConnection().then(() => {
+    app.listen(port, () => {
+        logger.info(`CENADI Backend Server started on port ${port}`);
+        logger.info(`Memory usage: ${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`);
+        logger.info(`CPU usage: ${(process.cpuUsage().user / 1000).toFixed(2)} ms`);
+        logger.info(`Environment: ${process.env.NODE_ENV}`);
+    });
+}).catch((error) => {
+    logger.error('Failed to connect to database:', error);
+    process.exit(1);
 });
 
 // Graceful Shutdown
