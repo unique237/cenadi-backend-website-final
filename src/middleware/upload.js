@@ -63,7 +63,7 @@ const handleUploadErrors = (err, req, res, next) => {
     });
   }
   
-  next();
+  return next();
 };
 
 module.exports = {

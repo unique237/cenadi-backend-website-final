@@ -41,7 +41,7 @@ uploadEndpoints.forEach(({ path: routePath, subDir }) => {
       // Construire l'URL relative (sans le domaine)
       const fileUrl = `/uploads/${subDir}/${req.file.filename}`;
 
-      res.json({
+      return res.json({
         success: true,
         message: 'Fichier uploadé avec succès',
         data: {
@@ -72,7 +72,7 @@ router.delete(
       const filePath = path.join(UPLOAD_BASE_DIR, subDir, filename);
       await fs.unlink(filePath);
 
-      res.json({
+      return res.json({
         success: true,
         message: 'Fichier supprimé avec succès',
       });
@@ -85,7 +85,7 @@ router.delete(
       }
 
       console.error('Erreur lors de la suppression:', error);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: 'Erreur lors de la suppression du fichier',
       });

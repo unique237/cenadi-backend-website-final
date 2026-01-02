@@ -62,15 +62,17 @@ const signup = async (req, res) => {
 // Signin - User login
 const signin = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, username, password } = req.body;
 
-        // Find user by email
-        const user = await User.findOne({ where: { email } });
+        // Find user by email or username
+        const user = await User.findOne({ 
+            where: email ? { email } : { username }
+        });
 
         if (!user) {
             return res.status(401).json({ 
                 success: false,
-                message: 'Invalid email or password',
+                message: 'Invalid credentials',
             });
         }
 
@@ -267,6 +269,26 @@ const deleteUser = async (req, res) => {
     }
 };
 
+// Logout user
+const logout = async (req, res) => {
+    try {
+        // In JWT-based auth, logout is handled client-side by removing the token
+        // This endpoint is for server-side session cleanup if needed
+        logger.info(`User ${req.user?.id} logged out`);
+        
+        return res.status(200).json({ 
+            success: true,
+            message: 'Logout successful',
+        });
+    } catch (error) {
+        logger.error('Logout error:', error);
+        return res.status(500).json({ 
+            success: false,
+            message: 'An error occurred during logout',
+        });
+    }
+};
+
 module.exports = {
     signup,
     signin,
@@ -274,4 +296,5 @@ module.exports = {
     getUserById,
     updateUser,
     deleteUser,
+    logout,
 };

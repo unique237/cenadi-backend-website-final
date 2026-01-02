@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { User, Category, Newsletter, Partner, sequelize } = require('../models');
+const { User, Category, Newsletter, Partner, Fact, sequelize } = require('../models');
 const logger = require('../config/logger');
 
 const seedDatabase = async () => {
@@ -124,11 +124,68 @@ const seedDatabase = async () => {
       logger.info(`⚠️ Partners already present (${partnerCount}). Skipping partner seeding...`);
     }
 
+    const factCount = await Fact.count();
+    if (factCount === 0) {
+      // Create facts with bilingual content
+      const facts = await Fact.bulkCreate([
+        {
+          name_en: 'Public Institutions',
+          name_fr: 'Institutions Publiques',
+          content_en: 'Three major public institutions established in the IT and digital transformation sector',
+          content_fr: 'Trois grandes institutions publiques créées dans le secteur de l\'informatique et de la transformation numérique',
+          description_en: 'Specialized agencies dedicated to digital governance',
+          description_fr: 'Agences spécialisées dédiées à la gouvernance numérique',
+        },
+        {
+          name_en: 'Years of Expertise',
+          name_fr: 'Années d\'Expertise',
+          content_en: 'More than 15 years of expertise in digital innovation and IT governance',
+          content_fr: 'Plus de 15 ans d\'expertise en innovation numérique et gouvernance informatique',
+          description_en: 'Deep knowledge and experience in digital transformation',
+          description_fr: 'Connaissances et expérience approfondies en transformation numérique',
+        },
+        {
+          name_en: 'Successful Projects',
+          name_fr: 'Projets Réussis',
+          content_en: 'Over 250 digital transformation projects successfully completed',
+          content_fr: 'Plus de 250 projets de transformation numérique menés à bien',
+          description_en: 'Proven track record of successful implementations',
+          description_fr: 'Antécédents avérés d\'implémentations réussies',
+        },
+        {
+          name_en: 'Training Programs',
+          name_fr: 'Programmes de Formation',
+          content_en: 'More than 50 training programs delivered to government officials',
+          content_fr: 'Plus de 50 programmes de formation dispensés aux fonctionnaires gouvernementaux',
+          description_en: 'Capacity building and skills development initiatives',
+          description_fr: 'Initiatives de renforcement des capacités et développement des compétences',
+        },
+        {
+          name_en: 'Expert Team',
+          name_fr: 'Équipe d\'Experts',
+          content_en: 'A team of over 200 qualified IT professionals and experts',
+          content_fr: 'Une équipe de plus de 200 professionnels et experts informatiques qualifiés',
+          description_en: 'Dedicated professionals committed to digital excellence',
+          description_fr: 'Professionnels dédiés engagés envers l\'excellence numérique',
+        },
+        {
+          name_en: 'International Partnerships',
+          name_fr: 'Partenariats Internationaux',
+          content_en: 'Partnership collaborations with 25+ international organizations',
+          content_fr: 'Collaborations de partenariat avec 25+ organisations internationales',
+          description_en: 'Global network of strategic partnerships',
+          description_fr: 'Réseau mondial de partenariats stratégiques',
+        },
+      ]);
+      logger.info(`✅ ${facts.length} facts created`);
+    } else {
+      logger.info(`⚠️ Facts already present (${factCount}). Skipping facts seeding...`);
+    }
+
     logger.info('🎉 Database seeding completed successfully!');
-    process.exit(0);
   } catch (error) {
     logger.error('❌ Error seeding database:', error);
-    process.exit(1);
+    throw error;
   }
 };
 

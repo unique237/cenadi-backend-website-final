@@ -5,7 +5,7 @@ const logger = require('../config/logger');
 const getAllFacts = async (req, res) => {
   try {
     const facts = await Fact.findAll({
-      order: [['created_at', 'DESC']],
+      order: [['posted_on', 'DESC']],
     });
 
     logger.info(`Fetched ${facts.length} facts`);
@@ -17,9 +17,11 @@ const getAllFacts = async (req, res) => {
     });
   } catch (error) {
     logger.error('Get all facts error:', error);
+    console.error('Fact model error details:', error.message, error.stack);
     return res.status(500).json({ 
       success: false, 
       message: 'An error occurred while fetching facts',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 };
@@ -56,7 +58,7 @@ const getFactById = async (req, res) => {
 // Create fact (Admin only)
 const createFact = async (req, res) => {
   try {
-    const { content_en, content_fr } = req.body;
+    const { name_en, name_fr, content_en, content_fr, description_en, description_fr, icon_url } = req.body;
 
     if (!content_en || !content_fr) {
       return res.status(400).json({ 
@@ -66,8 +68,13 @@ const createFact = async (req, res) => {
     }
 
     const fact = await Fact.create({
+      name_en,
+      name_fr,
       content_en,
       content_fr,
+      description_en,
+      description_fr,
+      icon_url,
     });
 
     logger.info(`Fact created by admin ${req.user.id}: ${fact.fact_id}`);
@@ -90,7 +97,7 @@ const createFact = async (req, res) => {
 const updateFact = async (req, res) => {
   try {
     const { factId } = req.params;
-    const { content_en, content_fr } = req.body;
+    const { name_en, name_fr, content_en, content_fr, description_en, description_fr, icon_url } = req.body;
 
     const fact = await Fact.findByPk(factId);
     if (!fact) {
@@ -101,8 +108,13 @@ const updateFact = async (req, res) => {
     }
 
     // Update fields
+    if (name_en !== undefined) fact.name_en = name_en;
+    if (name_fr !== undefined) fact.name_fr = name_fr;
     if (content_en !== undefined) fact.content_en = content_en;
     if (content_fr !== undefined) fact.content_fr = content_fr;
+    if (description_en !== undefined) fact.description_en = description_en;
+    if (description_fr !== undefined) fact.description_fr = description_fr;
+    if (icon_url !== undefined) fact.icon_url = icon_url;
 
     await fact.save();
 

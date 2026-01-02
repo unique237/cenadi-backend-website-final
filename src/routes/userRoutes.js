@@ -7,7 +7,8 @@ const {
     getAllUsers,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser,
+    logout
 } = require('../controllers/userController.v2');
 const { verifyToken, adminOnly } = require('../middleware/auth');
 const { authLimiter } = require('../middleware/rateLimiter');
@@ -209,5 +210,27 @@ router.put('/users/:userId', verifyToken, adminOnly, validate(updateUserSchema),
  *         description: Utilisateur non trouvé
  */
 router.delete('/users/:userId', verifyToken, adminOnly, deleteUser);
+
+/**
+ * @swagger
+ * /auth/logout:
+ *   post:
+ *     summary: Déconnexion utilisateur
+ *     description: Déconnecte l'utilisateur (valide la déconnexion côté serveur)
+ *     tags: [Authentication]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Déconnexion réussie
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success: { type: boolean, example: true }
+ *                 message: { type: string, example: "Logout successful" }
+ */
+router.post('/auth/logout', verifyToken, logout);
 
 module.exports = router;

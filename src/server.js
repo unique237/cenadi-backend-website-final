@@ -4,7 +4,7 @@ require('dotenv').config();
 // Import logger first
 const logger = require('./config/logger');
 const morgan = require('morgan');
-const { testConnection } = require('./config/database');
+const { testConnection, sequelize } = require('./config/database');
 
 // Validate critical environment variables
 if (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'CHANGE_THIS_TO_A_SECURE_RANDOM_STRING_MIN_32_CHARS') {
@@ -138,7 +138,21 @@ app.get('/api/health', (req, res) => {
 app.use(errorHandler);
 
 // Test database connection before starting server
-testConnection().then(() => {
+testConnection().then(async () => {
+    // Synchronize database models
+    try {
+        console.log('🔄 Synchronizing database models...');
+        await sequelize.sync({ alter: false }); // Set to false - tables already exist
+        console.log('✅ Database synchronized');
+        
+        // Run seeders if needed
+        const seedDatabase = require('./seeders/seed');
+        await seedDatabase();
+    } catch (err) {
+        logger.error('Database sync error:', err);
+        // Continue anyway, tables might already exist
+    }
+    
     app.listen(port, () => {
         logger.info(`CENADI Backend Server started on port ${port}`);
         logger.info(`Memory usage: ${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`);
