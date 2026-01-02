@@ -5,7 +5,7 @@ const logger = require('../config/logger');
 const getAllDirectorMessages = async (req, res) => {
   try {
     const messages = await DirectorMessage.findAll({
-      order: [['posted_on', 'DESC']],
+      order: [['created_at', 'DESC']],
     });
 
     logger.info(`Fetched ${messages.length} director messages`);
@@ -28,8 +28,7 @@ const getAllDirectorMessages = async (req, res) => {
 const getActiveDirectorMessage = async (req, res) => {
   try {
     const message = await DirectorMessage.findOne({
-      where: { is_active: true },
-      order: [['posted_on', 'DESC']],
+      order: [['created_at', 'DESC']],
     });
 
     if (!message) {
@@ -91,25 +90,20 @@ const createDirectorMessage = async (req, res) => {
       title_fr,
       content_en,
       content_fr,
-      director_name_en,
-      director_name_fr,
-      director_photo,
-      is_active = true,
+      director_name,
+      excerpt_en,
+      excerpt_fr,
+      image_url,
+      x,
+      linkedin,
+      email,
     } = req.body;
 
-    if (!title_en || !title_fr || !content_en || !content_fr || !director_name_en || !director_name_fr) {
+    if (!title_en || !title_fr || !content_en || !content_fr || !director_name) {
       return res.status(400).json({ 
         success: false, 
         message: 'Required fields missing',
       });
-    }
-
-    // If setting as active, deactivate all other messages
-    if (is_active) {
-      await DirectorMessage.update(
-        { is_active: false },
-        { where: { is_active: true } }
-      );
     }
 
     const message = await DirectorMessage.create({
@@ -117,10 +111,13 @@ const createDirectorMessage = async (req, res) => {
       title_fr,
       content_en,
       content_fr,
-      director_name_en,
-      director_name_fr,
-      director_photo,
-      is_active,
+      director_name,
+      excerpt_en,
+      excerpt_fr,
+      image_url,
+      x,
+      linkedin,
+      email,
     });
 
     logger.info(`Director message created by admin ${req.user.id}: ${message.message_id}`);
@@ -148,10 +145,13 @@ const updateDirectorMessage = async (req, res) => {
       title_fr,
       content_en,
       content_fr,
-      director_name_en,
-      director_name_fr,
-      director_photo,
-      is_active,
+      director_name,
+      excerpt_en,
+      excerpt_fr,
+      image_url,
+      x,
+      linkedin,
+      email,
     } = req.body;
 
     const message = await DirectorMessage.findByPk(messageId);
@@ -162,23 +162,17 @@ const updateDirectorMessage = async (req, res) => {
       });
     }
 
-    // If setting as active, deactivate all other messages
-    if (is_active === true) {
-      await DirectorMessage.update(
-        { is_active: false },
-        { where: { is_active: true, message_id: { [require('sequelize').Op.ne]: messageId } } }
-      );
-    }
-
-    // Update fields
     if (title_en !== undefined) message.title_en = title_en;
     if (title_fr !== undefined) message.title_fr = title_fr;
     if (content_en !== undefined) message.content_en = content_en;
     if (content_fr !== undefined) message.content_fr = content_fr;
-    if (director_name_en !== undefined) message.director_name_en = director_name_en;
-    if (director_name_fr !== undefined) message.director_name_fr = director_name_fr;
-    if (director_photo !== undefined) message.director_photo = director_photo;
-    if (is_active !== undefined) message.is_active = is_active;
+    if (director_name !== undefined) message.director_name = director_name;
+    if (excerpt_en !== undefined) message.excerpt_en = excerpt_en;
+    if (excerpt_fr !== undefined) message.excerpt_fr = excerpt_fr;
+    if (image_url !== undefined) message.image_url = image_url;
+    if (x !== undefined) message.x = x;
+    if (linkedin !== undefined) message.linkedin = linkedin;
+    if (email !== undefined) message.email = email;
 
     await message.save();
 

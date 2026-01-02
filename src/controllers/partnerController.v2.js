@@ -5,7 +5,7 @@ const logger = require('../config/logger');
 const getAllPartners = async (req, res) => {
   try {
     const partners = await Partner.findAll({
-      order: [['added_on', 'DESC']],
+      order: [['created_at', 'DESC']],
     });
 
     logger.info(`Fetched ${partners.length} partners`);

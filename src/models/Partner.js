@@ -31,14 +31,11 @@ const Partner = sequelize.define('Partner', {
     type: DataTypes.STRING(255),
     allowNull: true,
   },
-  added_on: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: DataTypes.NOW,
-  },
 }, {
   tableName: 'partners',
-  timestamps: false,
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
   underscored: true,
 });
 

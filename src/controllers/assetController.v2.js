@@ -5,15 +5,14 @@ const logger = require('../config/logger');
 // Get all assets with pagination
 const getAllAssets = async (req, res) => {
   try {
-    const { page = 1, limit = 20, file_type } = req.query;
+    const { page = 1, limit = 20 } = req.query;
     const offset = (page - 1) * limit;
 
     const where = {};
-    if (file_type) where.file_type = file_type;
 
     const { count, rows } = await Asset.findAndCountAll({
       where,
-      order: [['uploaded_on', 'DESC']],
+      order: [['created_at', 'DESC']],
       limit: parseInt(limit),
       offset: parseInt(offset),
     });
@@ -74,12 +73,11 @@ const createAsset = async (req, res) => {
       title_fr,
       description_en,
       description_fr,
+      image_url,
       file_url,
-      file_type,
-      file_size,
     } = req.body;
 
-    if (!title_en || !title_fr || !file_url || !file_type) {
+    if (!title_en || !title_fr || !file_url) {
       return res.status(400).json({ 
         success: false, 
         message: 'Required fields missing',
@@ -91,9 +89,8 @@ const createAsset = async (req, res) => {
       title_fr,
       description_en,
       description_fr,
+      image_url,
       file_url,
-      file_type,
-      file_size,
     });
 
     logger.info(`Asset created by admin ${req.user.id}: ${asset.asset_id}`);
@@ -121,9 +118,8 @@ const updateAsset = async (req, res) => {
       title_fr,
       description_en,
       description_fr,
+      image_url,
       file_url,
-      file_type,
-      file_size,
     } = req.body;
 
     const asset = await Asset.findByPk(assetId);
@@ -139,9 +135,8 @@ const updateAsset = async (req, res) => {
     if (title_fr !== undefined) asset.title_fr = title_fr;
     if (description_en !== undefined) asset.description_en = description_en;
     if (description_fr !== undefined) asset.description_fr = description_fr;
+    if (image_url !== undefined) asset.image_url = image_url;
     if (file_url !== undefined) asset.file_url = file_url;
-    if (file_type !== undefined) asset.file_type = file_type;
-    if (file_size !== undefined) asset.file_size = file_size;
 
     await asset.save();
 
@@ -215,7 +210,7 @@ const searchAssets = async (req, res) => {
           { [descField]: { [Op.iLike]: `%${query}%` } },
         ],
       },
-      order: [['uploaded_on', 'DESC']],
+         order: [['created_at', 'DESC']],
       limit: parseInt(limit),
       offset: parseInt(offset),
     });

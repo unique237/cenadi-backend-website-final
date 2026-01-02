@@ -5,7 +5,7 @@ const logger = require('../config/logger');
 const getAllMinisterMessages = async (req, res) => {
   try {
     const messages = await MinisterMessage.findAll({
-      order: [['posted_on', 'DESC']],
+      order: [['created_at', 'DESC']],
     });
 
     logger.info(`Fetched ${messages.length} minister messages`);
@@ -28,8 +28,7 @@ const getAllMinisterMessages = async (req, res) => {
 const getActiveMinisterMessage = async (req, res) => {
   try {
     const message = await MinisterMessage.findOne({
-      where: { is_active: true },
-      order: [['posted_on', 'DESC']],
+      order: [['created_at', 'DESC']],
     });
 
     if (!message) {
@@ -87,40 +86,30 @@ const getMinisterMessageById = async (req, res) => {
 const createMinisterMessage = async (req, res) => {
   try {
     const {
-      title_en,
-      title_fr,
       content_en,
       content_fr,
-      minister_name_en,
-      minister_name_fr,
-      minister_photo,
-      is_active = true,
+      minister_name,
+      image_url,
+      telephone,
+      email,
+      website,
     } = req.body;
 
-    if (!title_en || !title_fr || !content_en || !content_fr || !minister_name_en || !minister_name_fr) {
+    if (!content_en || !content_fr || !minister_name) {
       return res.status(400).json({ 
         success: false, 
         message: 'Required fields missing',
       });
     }
 
-    // If setting as active, deactivate all other messages
-    if (is_active) {
-      await MinisterMessage.update(
-        { is_active: false },
-        { where: { is_active: true } }
-      );
-    }
-
     const message = await MinisterMessage.create({
-      title_en,
-      title_fr,
       content_en,
       content_fr,
-      minister_name_en,
-      minister_name_fr,
-      minister_photo,
-      is_active,
+      minister_name,
+      image_url,
+      telephone,
+      email,
+      website,
     });
 
     logger.info(`Minister message created by admin ${req.user.id}: ${message.message_id}`);
@@ -144,14 +133,13 @@ const updateMinisterMessage = async (req, res) => {
   try {
     const { messageId } = req.params;
     const {
-      title_en,
-      title_fr,
       content_en,
       content_fr,
-      minister_name_en,
-      minister_name_fr,
-      minister_photo,
-      is_active,
+      minister_name,
+      image_url,
+      telephone,
+      email,
+      website,
     } = req.body;
 
     const message = await MinisterMessage.findByPk(messageId);
@@ -162,23 +150,13 @@ const updateMinisterMessage = async (req, res) => {
       });
     }
 
-    // If setting as active, deactivate all other messages
-    if (is_active === true) {
-      await MinisterMessage.update(
-        { is_active: false },
-        { where: { is_active: true, message_id: { [require('sequelize').Op.ne]: messageId } } }
-      );
-    }
-
-    // Update fields
-    if (title_en !== undefined) message.title_en = title_en;
-    if (title_fr !== undefined) message.title_fr = title_fr;
     if (content_en !== undefined) message.content_en = content_en;
     if (content_fr !== undefined) message.content_fr = content_fr;
-    if (minister_name_en !== undefined) message.minister_name_en = minister_name_en;
-    if (minister_name_fr !== undefined) message.minister_name_fr = minister_name_fr;
-    if (minister_photo !== undefined) message.minister_photo = minister_photo;
-    if (is_active !== undefined) message.is_active = is_active;
+    if (minister_name !== undefined) message.minister_name = minister_name;
+    if (image_url !== undefined) message.image_url = image_url;
+    if (telephone !== undefined) message.telephone = telephone;
+    if (email !== undefined) message.email = email;
+    if (website !== undefined) message.website = website;
 
     await message.save();
 

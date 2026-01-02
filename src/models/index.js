@@ -11,6 +11,7 @@ const DirectorMessage = require('./DirectorMessage');
 const MinisterMessage = require('./MinisterMessage');
 const Asset = require('./Asset');
 const Subscriber = require('./Subscriber');
+const Newsletter = require('./Newsletter');
 
 // Export tous les modèles
 const models = {
@@ -26,6 +27,7 @@ const models = {
   MinisterMessage,
   Asset,
   Subscriber,
+  Newsletter,
   sequelize,
 };
 

@@ -22,6 +22,15 @@ const userRoutes = require('./routes/userRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const newsRoutes = require('./routes/newsRoutes');
 const projectRoutes = require('./routes/projectRoutes');
+const staffRoutes = require('./routes/staffRoutes');
+const directorMessageRoutes = require('./routes/directorMessageRoutes');
+const financeMinisterMessageRoutes = require('./routes/financeMinisterMessageRoutes');
+const factRoutes = require('./routes/factRoutes');
+const assetRoutes = require('./routes/assetRoutes');
+const ebookRoutes = require('./routes/ebookRoutes');
+const partnerRoutes = require('./routes/partnerRoutes');
+const newsletterRoutes = require('./routes/newsletterRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
 
 // Import required modules and create an Express app
 const express = require('express');
@@ -83,6 +92,20 @@ if (isProduction) {
     app.use(express.json({ limit: '10mb' }));
 }
 
+// Initialize storage directories and serve static files
+const path = require('path');
+const { initStorageDirs, UPLOAD_BASE_DIR } = require('./config/storage');
+
+// Create upload directories on startup
+initStorageDirs()
+    .then(() => logger.info('Storage directories initialized'))
+    .catch((error) => logger.error('Failed to initialize storage directories:', error));
+
+// Serve uploaded files statically
+const uploadsPath = path.join(__dirname, '..', UPLOAD_BASE_DIR);
+app.use('/uploads', express.static(uploadsPath));
+logger.info(`Serving static files from: /uploads -> ${uploadsPath}`);
+
 // Swagger UI - API Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
     customCss: '.swagger-ui .topbar { display: none }',
@@ -96,6 +119,15 @@ app.use('/api', userRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', newsRoutes);
 app.use('/api', projectRoutes);
+app.use('/api', staffRoutes);
+app.use('/api', directorMessageRoutes);
+app.use('/api', financeMinisterMessageRoutes);
+app.use('/api', factRoutes);
+app.use('/api', assetRoutes);
+app.use('/api', ebookRoutes);
+app.use('/api', partnerRoutes);
+app.use('/api', newsletterRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Health Check Endpoint
 app.get('/api/health', (req, res) => {

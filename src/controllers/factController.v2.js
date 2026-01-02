@@ -5,7 +5,7 @@ const logger = require('../config/logger');
 const getAllFacts = async (req, res) => {
   try {
     const facts = await Fact.findAll({
-      order: [['posted_on', 'DESC']],
+      order: [['created_at', 'DESC']],
     });
 
     logger.info(`Fetched ${facts.length} facts`);

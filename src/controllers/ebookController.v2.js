@@ -9,7 +9,7 @@ const getAllEbooks = async (req, res) => {
     const offset = (page - 1) * limit;
 
     const { count, rows } = await Ebook.findAndCountAll({
-      order: [['added_on', 'DESC']],
+      order: [['posted_on', 'DESC']],
       limit: parseInt(limit),
       offset: parseInt(offset),
     });
@@ -74,9 +74,7 @@ const createEbook = async (req, res) => {
       author_fr,
       cover_url,
       file_url,
-      file_size,
-      pages,
-      published_date,
+      posted_on,
     } = req.body;
 
     if (!title_en || !title_fr || !file_url) {
@@ -95,9 +93,7 @@ const createEbook = async (req, res) => {
       author_fr,
       cover_url,
       file_url,
-      file_size,
-      pages,
-      published_date,
+      posted_on,
     });
 
     logger.info(`Ebook created by admin ${req.user.id}: ${ebook.ebook_id}`);
@@ -129,9 +125,7 @@ const updateEbook = async (req, res) => {
       author_fr,
       cover_url,
       file_url,
-      file_size,
-      pages,
-      published_date,
+      posted_on,
     } = req.body;
 
     const ebook = await Ebook.findByPk(ebookId);
@@ -151,9 +145,7 @@ const updateEbook = async (req, res) => {
     if (author_fr !== undefined) ebook.author_fr = author_fr;
     if (cover_url !== undefined) ebook.cover_url = cover_url;
     if (file_url !== undefined) ebook.file_url = file_url;
-    if (file_size !== undefined) ebook.file_size = file_size;
-    if (pages !== undefined) ebook.pages = pages;
-    if (published_date !== undefined) ebook.published_date = published_date;
+    if (posted_on !== undefined) ebook.posted_on = posted_on;
 
     await ebook.save();
 
