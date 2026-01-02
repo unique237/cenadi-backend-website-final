@@ -61,7 +61,11 @@ app.use(helmet({
 
 // CORS Configuration
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: [
+        'http://localhost:3000',
+        'http://localhost:5173',
+        process.env.CORS_ORIGIN
+    ].filter(Boolean),
     credentials: true,
     optionsSuccessStatus: 200
 };
@@ -103,7 +107,14 @@ initStorageDirs()
 
 // Serve uploaded files statically
 const uploadsPath = path.join(__dirname, '..', UPLOAD_BASE_DIR);
-app.use('/uploads', express.static(uploadsPath));
+app.use('/uploads', (req, res, next) => {
+  // Add CORS headers for static files
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Cross-Origin-Resource-Policy', 'cross-origin');
+  next();
+}, express.static(uploadsPath));
 logger.info(`Serving static files from: /uploads -> ${uploadsPath}`);
 
 // Swagger UI - API Documentation
