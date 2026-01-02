@@ -15,7 +15,7 @@ const { verifyToken, adminOnly } = require('../middleware/auth');
  *   get:
  *     summary: Lister les projets
  *     description: Retourne la liste des projets avec pagination
- *     tags: [Projets]
+ *     tags: [Projects]
  *     parameters:
  *       - in: query
  *         name: page
@@ -37,7 +37,7 @@ router.get('/projects', getAllProjects);
  * /projects/{projectId}:
  *   get:
  *     summary: Obtenir un projet par ID
- *     tags: [Projets]
+ *     tags: [Projects]
  *     parameters:
  *       - in: path
  *         name: projectId
@@ -57,7 +57,7 @@ router.get('/projects/:projectId', getProjectById);
  *   post:
  *     summary: Créer un projet
  *     description: Crée un nouveau projet (Admin requis)
- *     tags: [Projets]
+ *     tags: [Projects]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -88,7 +88,7 @@ router.post('/projects', verifyToken, adminOnly, createProject);
  * /projects/{projectId}:
  *   put:
  *     summary: Mettre à jour un projet
- *     tags: [Projets]
+ *     tags: [Projects]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -121,7 +121,7 @@ router.put('/projects/:projectId', verifyToken, adminOnly, updateProject);
  * /projects/{projectId}:
  *   delete:
  *     summary: Supprimer un projet
- *     tags: [Projets]
+ *     tags: [Projects]
  *     security:
  *       - bearerAuth: []
  *     parameters:

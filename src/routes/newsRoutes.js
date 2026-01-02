@@ -18,7 +18,7 @@ const { verifyToken, adminOnly } = require('../middleware/auth');
  *   get:
  *     summary: Lister les articles
  *     description: Retourne la liste des articles avec pagination et filtres
- *     tags: [Articles]
+ *     tags: [News]
  *     parameters:
  *       - in: query
  *         name: page
@@ -43,7 +43,7 @@ router.get('/news', getAllNews);
  * /news/slug/{slug}:
  *   get:
  *     summary: Obtenir un article par slug
- *     tags: [Articles]
+ *     tags: [News]
  *     parameters:
  *       - in: path
  *         name: slug
@@ -62,7 +62,7 @@ router.get('/news/slug/:slug', getNewsBySlug);
  * /news/{articleId}:
  *   get:
  *     summary: Obtenir un article par ID
- *     tags: [Articles]
+ *     tags: [News]
  *     parameters:
  *       - in: path
  *         name: articleId
@@ -81,7 +81,7 @@ router.get('/news/:articleId', getNewsById);
  * /news/featured:
  *   get:
  *     summary: Obtenir les articles en vedette
- *     tags: [Articles]
+ *     tags: [News]
  *     parameters:
  *       - in: query
  *         name: limit
@@ -97,7 +97,7 @@ router.get('/news/featured', getFeaturedNews);
  * /news/search:
  *   get:
  *     summary: Rechercher des articles
- *     tags: [Articles]
+ *     tags: [News]
  *     parameters:
  *       - in: query
  *         name: query
@@ -124,7 +124,7 @@ router.get('/news/search', searchNews);
  *   post:
  *     summary: Créer un article
  *     description: Crée un nouvel article (Auth requis)
- *     tags: [Articles]
+ *     tags: [News]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -157,7 +157,7 @@ router.post('/news', verifyToken, createNews);
  * /news/{articleId}:
  *   put:
  *     summary: Mettre à jour un article
- *     tags: [Articles]
+ *     tags: [News]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -189,7 +189,7 @@ router.put('/news/:articleId', verifyToken, updateNews);
  * /news/{articleId}:
  *   delete:
  *     summary: Supprimer un article
- *     tags: [Articles]
+ *     tags: [News]
  *     security:
  *       - bearerAuth: []
  *     parameters:

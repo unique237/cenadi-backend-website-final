@@ -152,9 +152,9 @@ app.use(errorHandler);
 testConnection().then(async () => {
     // Synchronize database models
     try {
-        console.log('🔄 Synchronizing database models...');
+        logger.info('🔄 Synchronizing database models...');
         await sequelize.sync({ alter: false }); // Set to false - tables already exist
-        console.log('✅ Database synchronized');
+        logger.info('✅ Database synchronized');
         
         // Run seeders if needed
         const seedDatabase = require('./seeders/seed');
