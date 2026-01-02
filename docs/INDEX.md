@@ -5,6 +5,7 @@ Bienvenue dans la documentation du backend CENADI. Utilisez ce guide pour navigu
 ## 🚀 Démarrage rapide
 
 **Nouveau venu?** Commencez par:
+
 1. [README principal](../README.md) - Vue d'ensemble du projet
 2. [DOCUMENTATION_README.md](DOCUMENTATION_README.md) - Guide d'accès rapide
 3. [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) - Configuration et premiers pas
@@ -12,65 +13,72 @@ Bienvenue dans la documentation du backend CENADI. Utilisez ce guide pour navigu
 ## 📖 Documentation complète
 
 ### 1. **API_DOCUMENTATION.md** - Référence API complète
-   - **Pour**: Frontend developers, API consumers, QA
-   - **Contient**: 
-     - Tous les 40+ endpoints documentés
-     - Authentification détaillée
-     - Modèles de données complets
-     - Codes de réponse et erreurs
-     - Exemples d'utilisation
-   - **Taille**: 650+ lignes
+
+- **Pour**: Frontend developers, API consumers, QA
+- **Contient**:
+  - Tous les 40+ endpoints documentés
+  - Authentification détaillée
+  - Modèles de données complets
+  - Codes de réponse et erreurs
+  - Exemples d'utilisation
+- **Taille**: 650+ lignes
 
 ### 2. **DEVELOPER_GUIDE.md** - Guide développeur backend
-   - **Pour**: Backend developers, contributeurs
-   - **Contient**:
-     - Installation et setup complet
-     - Structure du projet
-     - Patterns Sequelize ORM
-     - Guide "Créer un nouvel endpoint"
-     - Configuration Postman
-     - Migrations et seeders
-     - Logging et debugging
-   - **Taille**: 700+ lignes
+
+- **Pour**: Backend developers, contributeurs
+- **Contient**:
+  - Installation et setup complet
+  - Structure du projet
+  - Patterns Sequelize ORM
+  - Guide "Créer un nouvel endpoint"
+  - Configuration Postman
+  - Migrations et seeders
+  - Logging et debugging
+- **Taille**: 700+ lignes
 
 ### 3. **SWAGGER_GUIDE.md** - Guide maintenance Swagger
-   - **Pour**: Documenters, API maintainers
-   - **Contient**:
-     - Structure OpenAPI 3.0
-     - Tous les schémas disponibles (16)
-     - Patterns JSDoc @swagger
-     - Bonnes pratiques
-     - Validation OpenAPI
-     - Dépannage
-   - **Taille**: 600+ lignes
+
+- **Pour**: Documenters, API maintainers
+- **Contient**:
+  - Structure OpenAPI 3.0
+  - Tous les schémas disponibles (16)
+  - Patterns JSDoc @swagger
+  - Bonnes pratiques
+  - Validation OpenAPI
+  - Dépannage
+- **Taille**: 600+ lignes
 
 ### 4. **DOCUMENTATION_README.md** - Point d'accès rapide
-   - **Pour**: Tous les utilisateurs
-   - **Contient**:
-     - Accès rapide à tous les docs
-     - Recommandations par rôle
-     - Workflows typiques
-     - Postman setup
-     - Dépannage
-   - **Taille**: 300+ lignes
+
+- **Pour**: Tous les utilisateurs
+- **Contient**:
+  - Accès rapide à tous les docs
+  - Recommandations par rôle
+  - Workflows typiques
+  - Postman setup
+  - Dépannage
+- **Taille**: 300+ lignes
 
 ### 5. **DOCUMENTATION_UPDATE_SUMMARY.md** - Statistiques et changelog
-   - **Pour**: Project managers, tech leads
-   - **Contient**:
-     - Statistiques du projet
-     - Liste des 16 schémas OpenAPI
-     - Liste des 11 tags Swagger
-     - Endpoints par catégorie
-     - Maintenance checklist
-     - Roadmap
-   - **Taille**: 400+ lignes
+
+- **Pour**: Project managers, tech leads
+- **Contient**:
+  - Statistiques du projet
+  - Liste des 16 schémas OpenAPI
+  - Liste des 11 tags Swagger
+  - Endpoints par catégorie
+  - Maintenance checklist
+  - Roadmap
+- **Taille**: 400+ lignes
 
 ---
 
 ## 🎯 Par rôle
 
 ### 👨‍💻 Je suis Frontend Developer
+
 **Commencez par:**
+
 1. [README.md](../README.md) - Structure et endpoints
 2. [API_DOCUMENTATION.md](API_DOCUMENTATION.md) - Endpoints détaillés
 3. [DOCUMENTATION_README.md](DOCUMENTATION_README.md) - Authentification et exemples
@@ -80,7 +88,9 @@ Bienvenue dans la documentation du backend CENADI. Utilisez ce guide pour navigu
 ---
 
 ### 🔧 Je suis Backend Developer
+
 **Commencez par:**
+
 1. [README.md](../README.md) - Architecture générale
 2. [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) - Setup et patterns
 3. [SWAGGER_GUIDE.md](SWAGGER_GUIDE.md) - Documentation des endpoints
@@ -90,7 +100,9 @@ Bienvenue dans la documentation du backend CENADI. Utilisez ce guide pour navigu
 ---
 
 ### 📝 Je suis Documenter/Mainteneur
+
 **Commencez par:**
+
 1. [SWAGGER_GUIDE.md](SWAGGER_GUIDE.md) - Patterns Swagger
 2. [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) - Checklist maintenance
 3. [DOCUMENTATION_UPDATE_SUMMARY.md](DOCUMENTATION_UPDATE_SUMMARY.md) - Statistiques
@@ -100,7 +112,9 @@ Bienvenue dans la documentation du backend CENADI. Utilisez ce guide pour navigu
 ---
 
 ### 🧪 Je suis QA/Tester
+
 **Commencez par:**
+
 1. [README.md](../README.md) - Endpoints overview
 2. [API_DOCUMENTATION.md](API_DOCUMENTATION.md) - Tous les endpoints
 3. [DOCUMENTATION_README.md](DOCUMENTATION_README.md) - Postman setup
@@ -110,7 +124,9 @@ Bienvenue dans la documentation du backend CENADI. Utilisez ce guide pour navigu
 ---
 
 ### 📊 Je suis Project Manager/Tech Lead
+
 **Commencez par:**
+
 1. [README.md](../README.md) - Aperçu global
 2. [DOCUMENTATION_UPDATE_SUMMARY.md](DOCUMENTATION_UPDATE_SUMMARY.md) - Statistiques
 3. [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) - Workflow de contribution
@@ -122,18 +138,22 @@ Bienvenue dans la documentation du backend CENADI. Utilisez ce guide pour navigu
 ## 🔍 Guide de recherche
 
 ### Trouver un endpoint
+
 1. Swagger UI: `http://localhost:5001/api-docs`
 2. Ou cherchez dans [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
 
 ### Créer un nouveau endpoint
+
 1. Consultez [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) - Section "Créer un nouvel endpoint"
 2. Documentez avec Swagger: [SWAGGER_GUIDE.md](SWAGGER_GUIDE.md)
 
 ### Configurer Postman
+
 1. [DOCUMENTATION_README.md](DOCUMENTATION_README.md) - Section Postman
 2. Ou importez depuis `http://localhost:5001/api-docs`
 
 ### Dépanner un problème
+
 1. [DOCUMENTATION_README.md](DOCUMENTATION_README.md) - Section Dépannage
 2. [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) - Section Debugging
 
@@ -141,15 +161,15 @@ Bienvenue dans la documentation du backend CENADI. Utilisez ce guide pour navigu
 
 ## 📊 Statistiques de documentation
 
-| Métrique | Valeur |
-|----------|--------|
-| Fichiers de doc | 5 |
-| Lignes totales | 2500+ |
-| Endpoints documentés | 40+ |
-| Schémas OpenAPI | 16 |
-| Tags Swagger | 11 |
-| Exemples de code | 50+ |
-| Diagrammes | 5+ |
+| Métrique             | Valeur |
+| -------------------- | ------ |
+| Fichiers de doc      | 5      |
+| Lignes totales       | 2500+  |
+| Endpoints documentés | 40+    |
+| Schémas OpenAPI      | 16     |
+| Tags Swagger         | 11     |
+| Exemples de code     | 50+    |
+| Diagrammes           | 5+     |
 
 ---
 
@@ -169,13 +189,13 @@ Consultez [SWAGGER_GUIDE.md](SWAGGER_GUIDE.md) pour les détails.
 
 ## 📞 Besoin d'aide?
 
-| Question | Voir |
-|----------|------|
-| Comment démarrer? | [README.md](../README.md) |
-| Quel endpoint utiliser? | [API_DOCUMENTATION.md](API_DOCUMENTATION.md) |
-| Comment créer un endpoint? | [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) |
-| Comment documenter? | [SWAGGER_GUIDE.md](SWAGGER_GUIDE.md) |
-| Je suis bloqué | [DOCUMENTATION_README.md](DOCUMENTATION_README.md) |
+| Question                   | Voir                                               |
+| -------------------------- | -------------------------------------------------- |
+| Comment démarrer?          | [README.md](../README.md)                          |
+| Quel endpoint utiliser?    | [API_DOCUMENTATION.md](API_DOCUMENTATION.md)       |
+| Comment créer un endpoint? | [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)           |
+| Comment documenter?        | [SWAGGER_GUIDE.md](SWAGGER_GUIDE.md)               |
+| Je suis bloqué             | [DOCUMENTATION_README.md](DOCUMENTATION_README.md) |
 
 ---
 

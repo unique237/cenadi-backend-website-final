@@ -27,20 +27,20 @@ routes/
 
 Chaque route est documentée avec un tag pour l'organisation dans Swagger:
 
-| Tag | Routes | Fichier |
-|-----|--------|---------|
-| **Authentication** | signin, signup, logout | authRoutes.js |
-| **Users** | CRUD utilisateurs | userRoutes.js |
-| **Categories** | CRUD catégories | categoryRoutes.js |
-| **News** | CRUD articles | newsRoutes.js |
-| **Projects** | CRUD projets | projectRoutes.js |
-| **Facts** | CRUD faits | factRoutes.js |
-| **Staff** | CRUD personnel | staffRoutes.js |
-| **Partners** | CRUD partenaires | partnerRoutes.js |
-| **Newsletters** | CRUD newsletters | newsletterRoutes.js |
-| **Messages** | Messages directeur/ministre | directorMessageRoutes.js, financeMinisterMessageRoutes.js |
-| **EBooks** | CRUD e-books | ebookRoutes.js |
-| **Uploads** | Upload fichiers | uploadRoutes.js |
+| Tag                | Routes                      | Fichier                                                   |
+| ------------------ | --------------------------- | --------------------------------------------------------- |
+| **Authentication** | signin, signup, logout      | authRoutes.js                                             |
+| **Users**          | CRUD utilisateurs           | userRoutes.js                                             |
+| **Categories**     | CRUD catégories             | categoryRoutes.js                                         |
+| **News**           | CRUD articles               | newsRoutes.js                                             |
+| **Projects**       | CRUD projets                | projectRoutes.js                                          |
+| **Facts**          | CRUD faits                  | factRoutes.js                                             |
+| **Staff**          | CRUD personnel              | staffRoutes.js                                            |
+| **Partners**       | CRUD partenaires            | partnerRoutes.js                                          |
+| **Newsletters**    | CRUD newsletters            | newsletterRoutes.js                                       |
+| **Messages**       | Messages directeur/ministre | directorMessageRoutes.js, financeMinisterMessageRoutes.js |
+| **EBooks**         | CRUD e-books                | ebookRoutes.js                                            |
+| **Uploads**        | Upload fichiers             | uploadRoutes.js                                           |
 
 ## 📖 Documentation Swagger
 
@@ -61,7 +61,7 @@ Chaque route inclut une annotation `@swagger` JSDoc:
  *       200:
  *         description: Liste des articles
  */
-router.get('/news', getAllNews);
+router.get("/news", getAllNews);
 ```
 
 ## 🔐 Authentification
@@ -69,10 +69,11 @@ router.get('/news', getAllNews);
 Les routes protégées utilisent le middleware `verifyToken`:
 
 ```javascript
-router.post('/news', verifyToken, adminOnly, createNews);
+router.post("/news", verifyToken, adminOnly, createNews);
 ```
 
 ### Middleware disponibles
+
 - `verifyToken` - Valide le JWT
 - `adminOnly` - Restreint aux admins
 - `upload.single('image')` - Upload d'un seul fichier
@@ -85,8 +86,8 @@ router.post('/news', verifyToken, adminOnly, createNews);
 4. Importez dans `src/server.js`
 
 ```javascript
-const myRoutes = require('./routes/myRoutes');
-app.use('/api', myRoutes);
+const myRoutes = require("./routes/myRoutes");
+app.use("/api", myRoutes);
 ```
 
 ## ✅ Checklist Swagger

@@ -21,6 +21,7 @@ API Backend complète pour le site web du CENADI (Centre d'Apprentissage pour le
 ## 🚀 Démarrage rapide
 
 ### Prérequis
+
 - Node.js v18+
 - PostgreSQL v12+
 - npm ou yarn
@@ -189,17 +190,18 @@ cenadi-backend-website-final/
 
 ### 📖 Accès à la documentation
 
-| Document | Contenu | Audience |
-|----------|---------|----------|
-| [API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md) | Référence complète de tous les endpoints | Frontend devs, QA, API consumers |
-| [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md) | Guide setup, patterns, et best practices | Backend devs, nouveaux contributeurs |
-| [SWAGGER_GUIDE.md](docs/SWAGGER_GUIDE.md) | Guide maintenance Swagger/OpenAPI 3.0 | Documenters, API maintainers |
-| [DOCUMENTATION_README.md](docs/DOCUMENTATION_README.md) | Point d'accès rapide à la doc | Tous les utilisateurs |
-| [DOCUMENTATION_UPDATE_SUMMARY.md](docs/DOCUMENTATION_UPDATE_SUMMARY.md) | Statistiques et changelog | Project managers |
+| Document                                                                | Contenu                                  | Audience                             |
+| ----------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------ |
+| [API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md)                       | Référence complète de tous les endpoints | Frontend devs, QA, API consumers     |
+| [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md)                           | Guide setup, patterns, et best practices | Backend devs, nouveaux contributeurs |
+| [SWAGGER_GUIDE.md](docs/SWAGGER_GUIDE.md)                               | Guide maintenance Swagger/OpenAPI 3.0    | Documenters, API maintainers         |
+| [DOCUMENTATION_README.md](docs/DOCUMENTATION_README.md)                 | Point d'accès rapide à la doc            | Tous les utilisateurs                |
+| [DOCUMENTATION_UPDATE_SUMMARY.md](docs/DOCUMENTATION_UPDATE_SUMMARY.md) | Statistiques et changelog                | Project managers                     |
 
 ### 🔍 Swagger UI
 
 Accédez à l'interface interactive Swagger:
+
 ```
 http://localhost:5001/api-docs
 ```
@@ -304,6 +306,7 @@ npm run logs           # Afficher les logs
 ## 🔌 Endpoints API
 
 ### Authentification
+
 ```
 POST   /auth/signin              # Connexion utilisateur
 POST   /auth/signup              # Inscription
@@ -311,6 +314,7 @@ POST   /auth/logout              # Déconnexion
 ```
 
 ### Contenu
+
 ```
 GET    /news                     # Lister les articles
 POST   /news                     # Créer un article
@@ -323,6 +327,7 @@ POST   /facts                    # Créer un fait
 ```
 
 ### Gestion
+
 ```
 GET    /categories               # Catégories
 GET    /projects                 # Projets
@@ -335,6 +340,7 @@ GET    /finance-minister-messages # Messages ministre
 ```
 
 ### Uploads
+
 ```
 POST   /upload/news               # Upload image article
 POST   /upload/projects           # Upload image projet
@@ -363,6 +369,7 @@ Password: SecureAdmin123
 ```
 
 Ou utilisez le nom d'utilisateur:
+
 ```
 Username: admin
 Password: SecureAdmin123
@@ -388,11 +395,13 @@ npm run coverage
 ### Avec Postman
 
 1. Importez la collection Swagger:
+
    ```
    http://localhost:5001/api-docs
    ```
 
 2. Obtenez un token via:
+
    ```
    POST /auth/signin
    Body: { "email": "admin@cenadi.cm", "password": "SecureAdmin123" }
@@ -442,15 +451,15 @@ Consultez [docs/CLOUD_MIGRATION_PLAN.md](docs/CLOUD_MIGRATION_PLAN.md)
 
 ## 📊 Statistiques
 
-| Métrique | Valeur |
-|----------|--------|
-| Routes API | 40+ |
-| Modèles Sequelize | 14 |
-| Schémas OpenAPI | 16 |
-| Tags Swagger | 11 |
-| Tests | 25+ |
-| Couverture | ~80% |
-| Lignes de code | 5000+ |
+| Métrique          | Valeur |
+| ----------------- | ------ |
+| Routes API        | 40+    |
+| Modèles Sequelize | 14     |
+| Schémas OpenAPI   | 16     |
+| Tags Swagger      | 11     |
+| Tests             | 25+    |
+| Couverture        | ~80%   |
+| Lignes de code    | 5000+  |
 
 ---
 

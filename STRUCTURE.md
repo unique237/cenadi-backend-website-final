@@ -3,56 +3,62 @@
 ## 🎯 À quoi sert chaque dossier?
 
 ### `src/` - Code source principal
+
 Point d'entrée pour tous les fichiers de code.
 
 #### `src/server.js`
+
 **Le cœur de l'app** - Initialise Express, charge les middlewares et routes
 
 #### `src/config/`
+
 **Configuration** - BD, Swagger, uploads
 
-| Fichier | Rôle |
-|---------|------|
+| Fichier       | Rôle                           |
+| ------------- | ------------------------------ |
 | `database.js` | Connexion Sequelize PostgreSQL |
-| `swagger.js` | Configuration OpenAPI 3.0 |
-| `storage.js` | Configuration Multer uploads |
+| `swagger.js`  | Configuration OpenAPI 3.0      |
+| `storage.js`  | Configuration Multer uploads   |
 
 #### `src/models/`
+
 **Schémas de données** - Définit la structure de chaque table
 
-| Fichier | Table |
-|---------|-------|
-| `User.js` | Utilisateurs |
-| `Article.js` | Articles/News |
-| `Category.js` | Catégories |
-| `Project.js` | Projets |
-| `Fact.js` | Faits & Stats |
-| `Staff.js` | Personnel |
-| `Partner.js` | Partenaires |
-| `Newsletter.js` | Newsletters |
-| `EBook.js` | E-books |
-| `DirectorMessage.js` | Messages directeur |
-| `FinanceMinisterMessage.js` | Messages ministre |
+| Fichier                     | Table              |
+| --------------------------- | ------------------ |
+| `User.js`                   | Utilisateurs       |
+| `Article.js`                | Articles/News      |
+| `Category.js`               | Catégories         |
+| `Project.js`                | Projets            |
+| `Fact.js`                   | Faits & Stats      |
+| `Staff.js`                  | Personnel          |
+| `Partner.js`                | Partenaires        |
+| `Newsletter.js`             | Newsletters        |
+| `EBook.js`                  | E-books            |
+| `DirectorMessage.js`        | Messages directeur |
+| `FinanceMinisterMessage.js` | Messages ministre  |
 
 👉 **Voir**: [src/models/README.md](src/models/README.md)
 
 #### `src/routes/`
+
 **Points d'entrée API** - Définit chaque endpoint HTTP
 
-| Fichier | Endpoints |
-|---------|-----------|
-| `authRoutes.js` | /auth/* |
-| `newsRoutes.js` | /news/* |
-| `projectRoutes.js` | /projects/* |
-| `factRoutes.js` | /facts/* |
-| `staffRoutes.js` | /staffs/* |
-| `partnerRoutes.js` | /partners/* |
-| `newsletterRoutes.js` | /newsletters/* |
-| `uploadRoutes.js` | /upload/* |
+| Fichier               | Endpoints       |
+| --------------------- | --------------- |
+| `authRoutes.js`       | /auth/\*        |
+| `newsRoutes.js`       | /news/\*        |
+| `projectRoutes.js`    | /projects/\*    |
+| `factRoutes.js`       | /facts/\*       |
+| `staffRoutes.js`      | /staffs/\*      |
+| `partnerRoutes.js`    | /partners/\*    |
+| `newsletterRoutes.js` | /newsletters/\* |
+| `uploadRoutes.js`     | /upload/\*      |
 
 👉 **Voir**: [src/routes/README.md](src/routes/README.md)
 
 #### `src/controllers/`
+
 **Logique métier** - Code exécuté par chaque endpoint
 
 ```
@@ -63,17 +69,19 @@ newsRoutes.js → newsController.js → newsModel.js → PostgreSQL
 👉 **Voir**: [src/controllers/README.md](src/controllers/README.md)
 
 #### `src/middleware/`
+
 **Intercepteurs** - Authentification, uploads, erreurs
 
-| Fichier | Rôle |
-|---------|------|
-| `auth.js` | JWT, verifyToken, adminOnly |
-| `upload.js` | Multer configuration |
+| Fichier           | Rôle                        |
+| ----------------- | --------------------------- |
+| `auth.js`         | JWT, verifyToken, adminOnly |
+| `upload.js`       | Multer configuration        |
 | `errorHandler.js` | Gestion erreurs centralisée |
 
 👉 **Voir**: [src/middleware/README.md](src/middleware/README.md)
 
 #### `src/seeders/`
+
 **Données initiales** - Remplissage de la BD
 
 ```bash
@@ -83,6 +91,7 @@ npm run seed  # Charge les données de test
 👉 **Voir**: [src/seeders/README.md](src/seeders/README.md)
 
 #### `src/__tests__/`
+
 **Tests unitaires** - Jest, couverture de code
 
 ```bash
@@ -93,22 +102,24 @@ npm run coverage
 ---
 
 ### `docs/` - Documentation
+
 Ressources pour comprendre et utiliser l'API
 
-| Fichier | Pour qui | Contenu |
-|---------|----------|---------|
-| **INDEX.md** | Tous | Guide navigation doc |
-| **API_DOCUMENTATION.md** | Frontend devs | Tous les endpoints |
-| **DEVELOPER_GUIDE.md** | Backend devs | Setup, patterns, debug |
-| **SWAGGER_GUIDE.md** | Documenters | Maintenance Swagger |
-| **DOCUMENTATION_README.md** | Tous | Accès rapide, dépannage |
-| **DOCUMENTATION_UPDATE_SUMMARY.md** | Project mgr | Statistiques, roadmap |
+| Fichier                             | Pour qui      | Contenu                 |
+| ----------------------------------- | ------------- | ----------------------- |
+| **INDEX.md**                        | Tous          | Guide navigation doc    |
+| **API_DOCUMENTATION.md**            | Frontend devs | Tous les endpoints      |
+| **DEVELOPER_GUIDE.md**              | Backend devs  | Setup, patterns, debug  |
+| **SWAGGER_GUIDE.md**                | Documenters   | Maintenance Swagger     |
+| **DOCUMENTATION_README.md**         | Tous          | Accès rapide, dépannage |
+| **DOCUMENTATION_UPDATE_SUMMARY.md** | Project mgr   | Statistiques, roadmap   |
 
 👉 **Accès rapide**: [docs/INDEX.md](docs/INDEX.md)
 
 ---
 
 ### `migrations/` - Historique BD
+
 Scripts de migration Sequelize
 
 ```bash
@@ -119,6 +130,7 @@ npm run migrate:undo   # Annuler dernière migration
 ---
 
 ### `uploads/` - Fichiers uploadés
+
 Images, PDFs, logos (ignoré par Git)
 
 ```
@@ -133,6 +145,7 @@ uploads/
 ---
 
 ### `logs/` - Fichiers journaux
+
 Logs Winston (ignorés par Git)
 
 ```
@@ -142,6 +155,7 @@ logs/combined.log  # Tous les logs
 ---
 
 ### `coverage/` - Tests coverage
+
 Rapports de couverture des tests
 
 ```bash
@@ -161,17 +175,17 @@ npm run coverage  # Générer rapport
 
 2. Créer le contrôleur
    → src/controllers/myController.js
-   
+
 3. Créer les routes
    → src/routes/myRoutes.js
    → Ajouter annotations @swagger
-   
+
 4. Importer dans server.js
    → app.use('/api', myRoutes);
-   
+
 5. Tester
    → http://localhost:5001/api-docs
-   
+
 6. Documenter
    → docs/API_DOCUMENTATION.md
 ```
@@ -254,24 +268,25 @@ npm run coverage  # Générer rapport
 
 ## 🔍 Trouver rapidement
 
-| Je cherche | Où chercher |
-|-----------|-------------|
-| Comment créer un endpoint? | docs/DEVELOPER_GUIDE.md |
-| Documentation API? | docs/API_DOCUMENTATION.md |
-| Authentification? | src/middleware/auth.js |
-| Modèle Article? | src/models/Article.js |
-| Route /news? | src/routes/newsRoutes.js |
-| Contrôleur news? | src/controllers/newsController.v2.js |
-| Données de test? | src/seeders/seed.js |
-| Tests? | src/__tests__/ |
-| Configuration BD? | src/config/database.js |
-| Configuration Swagger? | src/config/swagger.js |
+| Je cherche                 | Où chercher                          |
+| -------------------------- | ------------------------------------ |
+| Comment créer un endpoint? | docs/DEVELOPER_GUIDE.md              |
+| Documentation API?         | docs/API_DOCUMENTATION.md            |
+| Authentification?          | src/middleware/auth.js               |
+| Modèle Article?            | src/models/Article.js                |
+| Route /news?               | src/routes/newsRoutes.js             |
+| Contrôleur news?           | src/controllers/newsController.v2.js |
+| Données de test?           | src/seeders/seed.js                  |
+| Tests?                     | src/**tests**/                       |
+| Configuration BD?          | src/config/database.js               |
+| Configuration Swagger?     | src/config/swagger.js                |
 
 ---
 
 ## 📞 Questions?
 
 Consultez les READMEs:
+
 - [docs/INDEX.md](docs/INDEX.md) - Guide de doc
 - [src/models/README.md](src/models/README.md) - Modèles
 - [src/routes/README.md](src/routes/README.md) - Routes

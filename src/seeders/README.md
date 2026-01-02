@@ -34,37 +34,45 @@ npm run seed:reset
 Le seeder charge les données suivantes:
 
 ### 1. Utilisateurs (Users)
+
 - Admin principal: `admin@cenadi.cm` / `SecureAdmin123`
 - Auteurs pour tester la création d'articles
 
 ### 2. Catégories
+
 - News & Updates
 - Announcements
 - Training
 - Events
 
 ### 3. Articles
+
 - Articles d'exemple avec images
 - Références aux catégories
 - Contenu bilingue (EN/FR)
 
 ### 4. Projets
+
 - Projets actifs et complétés
 - Descriptions et budgets
 
 ### 5. Faits & Statistiques
+
 - Statistiques CENADI
 - Icônes et descriptions
 
 ### 6. Personnel
+
 - Membres du personnel
 - Postes et contacts
 
 ### 7. Partenaires
+
 - Partenaires institutionnels
 - Logos et descriptions
 
 ### 8. Newsletters
+
 - Newsletters de test
 - Contenu bilingue
 
@@ -84,12 +92,12 @@ Pour ajouter de nouvelles données au seeder:
 
 const users = [
   {
-    username: 'newadmin',
-    email: 'newadmin@cenadi.cm',
-    password_hash: bcrypt.hashSync('password123', 10),
-    name: 'Nouvel Administrateur',
-    role: 'admin',
-    status: 'active'
+    username: "newadmin",
+    email: "newadmin@cenadi.cm",
+    password_hash: bcrypt.hashSync("password123", 10),
+    name: "Nouvel Administrateur",
+    role: "admin",
+    status: "active",
   },
   // ... plus d'utilisateurs
 ];

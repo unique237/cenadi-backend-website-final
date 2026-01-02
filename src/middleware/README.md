@@ -14,11 +14,12 @@ middleware/
 ## 🔐 auth.js - Authentification JWT
 
 ### `verifyToken`
+
 Valide le JWT Bearer token et attache l'utilisateur à la requête.
 
 ```javascript
 // Usage dans les routes
-router.get('/protected', verifyToken, handler);
+router.get("/protected", verifyToken, handler);
 
 // Dans le handler
 exports.handler = (req, res) => {
@@ -27,25 +28,28 @@ exports.handler = (req, res) => {
 ```
 
 **Format du token**:
+
 ```
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
 ### `adminOnly`
+
 Restreint l'accès aux administrateurs uniquement.
 
 ```javascript
 // Usage
-router.delete('/articles/:id', verifyToken, adminOnly, deleteArticle);
+router.delete("/articles/:id", verifyToken, adminOnly, deleteArticle);
 
 // Si l'utilisateur n'est pas admin → 403 Forbidden
 ```
 
 ### `optionalAuth`
+
 Authentification optionnelle (Ne bloque pas si pas de token).
 
 ```javascript
-router.get('/articles', optionalAuth, getArticles);
+router.get("/articles", optionalAuth, getArticles);
 // `req.user` sera undefined si pas de token
 ```
 
@@ -57,7 +61,7 @@ POST /auth/signup
 Body: { username, email, password, name }
 // Retourne: { success, message, user, token }
 
-// 2. Signin  
+// 2. Signin
 POST /auth/signin
 Body: { email/username, password }
 // Retourne: { success, message, user, token }
@@ -88,7 +92,7 @@ uploads/
 
 ```javascript
 // Dans les routes
-router.post('/upload/news', verifyToken, upload.single('image'), handler);
+router.post("/upload/news", verifyToken, upload.single("image"), handler);
 
 // Dans le handler
 exports.handler = (req, res) => {
@@ -123,12 +127,12 @@ Middleware centralisé pour capturer et standardiser les erreurs.
 ```javascript
 // Route avec authentification et validation
 router.post(
-  '/articles',
-  verifyToken,        // Vérifier le token
-  adminOnly,          // Vérifier le rôle admin
-  upload.single('image'), // Optionnel: upload fichier
-  validate(schema),   // Valider les données
-  createArticle       // Handler
+  "/articles",
+  verifyToken, // Vérifier le token
+  adminOnly, // Vérifier le rôle admin
+  upload.single("image"), // Optionnel: upload fichier
+  validate(schema), // Valider les données
+  createArticle // Handler
 );
 ```
 
@@ -143,10 +147,11 @@ NODE_ENV=development
 ## 🛡️ Bonnes pratiques
 
 ### ✅ À faire
+
 ```javascript
 // Vérifier les rôles
-if (req.user.role !== 'admin') {
-  return res.status(403).json({ error: 'Admin only' });
+if (req.user.role !== "admin") {
+  return res.status(403).json({ error: "Admin only" });
 }
 
 // Logger les erreurs d'auth
@@ -157,9 +162,10 @@ delete user.password_hash;
 ```
 
 ### ❌ À éviter
+
 ```javascript
 // Ne pas exposer les tokens dans les logs
-console.log('Token:', req.headers.authorization);
+console.log("Token:", req.headers.authorization);
 
 // Ne pas stocker les mots de passe en clair
 user.password = req.body.password;
@@ -173,22 +179,22 @@ const user = await User.findByPk(req.body.user_id); // ❌ Utiliser req.user
 ```
 1. Client envoie credentials
    POST /auth/signin
-   
+
 2. Backend vérifie et génère token
    ✓ Email existe?
    ✓ Mot de passe correct?
    ✓ Compte actif?
    → Générer JWT avec user_id
-   
+
 3. Client utilise le token
    GET /api/articles
    Header: Authorization: Bearer {token}
-   
+
 4. verifyToken middleware
    ✓ Token valide?
    ✓ Pas expiré?
    → Décoder et attacher à req.user
-   
+
 5. Handler traite la requête
    Accès à req.user.user_id, etc.
 ```

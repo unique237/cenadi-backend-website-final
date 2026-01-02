@@ -25,37 +25,41 @@ models/
 ## 📋 Structure d'un modèle
 
 ```javascript
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  const Model = sequelize.define('ModelName', {
-    // Colonnes
-    model_id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+  const Model = sequelize.define(
+    "ModelName",
+    {
+      // Colonnes
+      model_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      created_at: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-  }, {
-    tableName: 'model_names',
-    timestamps: true,
-  });
+    {
+      tableName: "model_names",
+      timestamps: true,
+    }
+  );
 
   // Associations
   Model.associate = (models) => {
-    Model.belongsTo(models.User, { foreignKey: 'user_id' });
+    Model.belongsTo(models.User, { foreignKey: "user_id" });
   };
 
   return Model;
@@ -65,20 +69,23 @@ module.exports = (sequelize) => {
 ## 🔗 Associations
 
 ### One-to-Many
+
 ```javascript
-Article.belongsTo(User, { foreignKey: 'author_id' });
-User.hasMany(Article, { foreignKey: 'author_id' });
+Article.belongsTo(User, { foreignKey: "author_id" });
+User.hasMany(Article, { foreignKey: "author_id" });
 ```
 
 ### Many-to-Many
+
 ```javascript
-Article.belongsToMany(Category, { through: 'ArticleCategories' });
-Category.belongsToMany(Article, { through: 'ArticleCategories' });
+Article.belongsToMany(Category, { through: "ArticleCategories" });
+Category.belongsToMany(Article, { through: "ArticleCategories" });
 ```
 
 ## 📊 Modèles clés
 
 ### User
+
 ```javascript
 {
   user_id: Integer (PK),
@@ -94,6 +101,7 @@ Category.belongsToMany(Article, { through: 'ArticleCategories' });
 ```
 
 ### Article
+
 ```javascript
 {
   article_id: Integer (PK),
@@ -114,6 +122,7 @@ Category.belongsToMany(Article, { through: 'ArticleCategories' });
 ```
 
 ### Project
+
 ```javascript
 {
   project_id: Integer (PK),
@@ -133,19 +142,20 @@ Category.belongsToMany(Article, { through: 'ArticleCategories' });
 
 ## 🔐 Types de données
 
-| Type | PostgreSQL | Utilisation |
-|------|------------|-------------|
-| `DataTypes.INTEGER` | INTEGER | IDs, nombres entiers |
-| `DataTypes.STRING(255)` | VARCHAR | Textes courts |
-| `DataTypes.TEXT` | TEXT | Contenu long |
-| `DataTypes.BOOLEAN` | BOOLEAN | Drapeaux |
-| `DataTypes.DATE` | TIMESTAMP | Dates/Times |
-| `DataTypes.DECIMAL(10,2)` | NUMERIC | Montants financiers |
-| `DataTypes.ENUM` | ENUM | Valeurs limitées |
+| Type                      | PostgreSQL | Utilisation          |
+| ------------------------- | ---------- | -------------------- |
+| `DataTypes.INTEGER`       | INTEGER    | IDs, nombres entiers |
+| `DataTypes.STRING(255)`   | VARCHAR    | Textes courts        |
+| `DataTypes.TEXT`          | TEXT       | Contenu long         |
+| `DataTypes.BOOLEAN`       | BOOLEAN    | Drapeaux             |
+| `DataTypes.DATE`          | TIMESTAMP  | Dates/Times          |
+| `DataTypes.DECIMAL(10,2)` | NUMERIC    | Montants financiers  |
+| `DataTypes.ENUM`          | ENUM       | Valeurs limitées     |
 
 ## ✅ Bonnes pratiques
 
 ### Valeurs par défaut
+
 ```javascript
 created_at: {
   type: DataTypes.DATE,
@@ -155,6 +165,7 @@ created_at: {
 ```
 
 ### Unicité
+
 ```javascript
 email: {
   type: DataTypes.STRING,
@@ -164,6 +175,7 @@ email: {
 ```
 
 ### Validations
+
 ```javascript
 age: {
   type: DataTypes.INTEGER,
@@ -176,6 +188,7 @@ age: {
 ```
 
 ### Indexes
+
 ```javascript
 name: {
   type: DataTypes.STRING,
@@ -194,23 +207,24 @@ npx sequelize-cli migration:generate --name add_column_to_table
 Éditez le fichier généré dans `migrations/`:
 
 ```javascript
-'use strict';
+"use strict";
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn('articles', 'new_column', {
+    await queryInterface.addColumn("articles", "new_column", {
       type: Sequelize.STRING,
       allowNull: true,
     });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn('articles', 'new_column');
-  }
+    await queryInterface.removeColumn("articles", "new_column");
+  },
 };
 ```
 
 Puis exécutez:
+
 ```bash
 npm run migrate
 ```

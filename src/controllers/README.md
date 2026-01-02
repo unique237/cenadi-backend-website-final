@@ -31,7 +31,7 @@ exports.getAll = async (req, res) => {
     const { page = 1, limit = 10 } = req.query;
     const items = await Model.findAll({
       offset: (page - 1) * limit,
-      limit: parseInt(limit)
+      limit: parseInt(limit),
     });
     res.json({ success: true, count: items.length, items });
   } catch (error) {
@@ -54,7 +54,7 @@ exports.getById = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     const item = await Model.create(req.body);
-    res.status(201).json({ success: true, message: 'Créé', item });
+    res.status(201).json({ success: true, message: "Créé", item });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
@@ -65,7 +65,7 @@ exports.update = async (req, res) => {
   try {
     await Model.update(req.body, { where: { id: req.params.id } });
     const item = await Model.findByPk(req.params.id);
-    res.json({ success: true, message: 'Mis à jour', item });
+    res.json({ success: true, message: "Mis à jour", item });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
@@ -75,7 +75,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
     await Model.destroy({ where: { id: req.params.id } });
-    res.json({ success: true, message: 'Supprimé' });
+    res.json({ success: true, message: "Supprimé" });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
@@ -105,6 +105,7 @@ exports.protectedAction = async (req, res) => {
 ## 📝 Bonnes pratiques
 
 ### ✅ À faire
+
 ```javascript
 // Valider les données
 if (!req.body.title) return res.status(400).json({ error: 'Title required' });
@@ -121,6 +122,7 @@ try { ... } catch (error) {
 ```
 
 ### ❌ À éviter
+
 ```javascript
 // Ne pas retourner les mots de passe
 res.json(user); // ❌ Contient password_hash
@@ -137,13 +139,13 @@ await Model.destroy({ where: {} }); // ❌ Supprime tout!
 Chaque contrôleur devrait avoir des tests dans `src/__tests__/`:
 
 ```javascript
-describe('newsController', () => {
-  it('should get all news', async () => {
+describe("newsController", () => {
+  it("should get all news", async () => {
     const req = {};
     const res = { json: jest.fn() };
-    
+
     await getAllNews(req, res);
-    
+
     expect(res.json).toHaveBeenCalled();
   });
 });
